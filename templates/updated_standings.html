@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% if standings_matchday == "Final" %}
+            Final Standings
+        {% else %}
+            Matchday {{ standings_matchday }} Standings
+        {% endif %}
+    </title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='table.css') }}">
+</head>
+<body>
+    <h1>
+        {% if standings_matchday == "Final" %}
+            Final Standings
+        {% else %}
+            Matchday {{ standings_matchday }} Standings
+        {% endif %}
+    </h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Position</th>
+                <th>Team</th>
+                <th>Played</th>
+                <th>Record (W-D-L)</th>  <!-- New Record column -->
+                <th>Goal Difference</th>
+                <th>Points</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for team in table %}
+            <tr>
+                <td>
+                    <div class="position-container">
+                        <span class="position-number">{{ loop.index }}</span>
+                        <div class="award-container">
+                            {% if loop.index == 1 %}
+                                <img src="{{ url_for('static', filename='images/trophy.png') }}" alt="Champion" class="award-icon trophy-icon">
+                            {% elif loop.index >= 2 and loop.index <= 4 %}
+                                <img src="{{ url_for('static', filename='images/ucl.png') }}" alt="Champions League" class="award-icon ucl-icon">
+                            {% elif loop.index >= 5 and loop.index <= 6 %}
+                                <img src="{{ url_for('static', filename='images/uel.png') }}" alt="Europa League" class="award-icon uel-icon">
+                            {% elif loop.index == 7 %}
+                                <img src="{{ url_for('static', filename='images/uecl.png') }}" alt="UECL" class="award-icon uecl-icon">
+                            {% endif %}
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="team">
+                        <img src="{{ team.team.crest }}" alt="{{ team.team.name }} Logo" class="team-logo">
+                        {{ team.team.name }}
+                        {% set diff = team.initial_position - loop.index %}
+                        {% if diff > 0 %}
+                            <span style="color: green;">+{{ diff }}</span>
+                        {% elif diff < 0 %}
+                            <span style="color: red;">{{ diff }}</span>
+                        {% else %}
+                            <span></span>
+                        {% endif %}
+                    </div>
+                </td>
+                <td>{{ team.playedGames }}</td>
+                <td>{{ team.won }} - {{ team.draw }} - {{ team.lost }}</td>  <!-- Record column -->
+                <td>{{ team.goalDifference }}</td>  <!-- Goal Difference -->
+                <td>{{ team.points }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>      
+    </table>
+    <div class="center-button">
+        <a href="{{ url_for('fixtures.next_fixtures') }}" class="side-button">Back to Forecasting</a>
+    </div>
+
+</body>
+</html>

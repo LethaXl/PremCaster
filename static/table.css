@@ -1,0 +1,103 @@
+/* Table Styling */
+table {
+    width: auto; /* Change from 100% to auto for flexible column widths */
+    border-collapse: collapse;
+    margin: 0 auto 30px auto; /* Centre align the table */
+    background-color: #1e1e1e;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    
+}
+
+.fixtures-table {
+    width: 90%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+    background-color: #1e1e1e;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* New Column Width Adjustments */
+th:nth-child(1),
+td:nth-child(1) { width: 70px; }
+th:nth-child(2),
+td:nth-child(2) { width: 300px; }
+th:nth-child(3),
+td:nth-child(3) { width: 25px; }
+th:nth-child(4),
+td:nth-child(4) { width: 86px; }
+th:nth-child(5),
+td:nth-child(5) { width: 30px; }
+th:nth-child(6),
+td:nth-child(6) { width: 25px; }
+
+/* Table Header Styling */
+th {
+    background-color: #333;
+    color: #e0e0e0;
+    padding: 15px;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    border-right: 2px solid #444;
+}
+
+/* Table Data Styling */
+td {
+    padding: 12px 20px;
+    text-align: center;
+    background-color: #2a2a2a;
+    border-bottom: 2px solid #444;
+    border-right: 2px solid #444;
+}
+
+/* Row Hover Effect */
+tr:hover {
+    background-color: #333;
+}
+
+
+/* CSS for individual award images - customize sizes as needed */
+.trophy-icon {
+    width: 26px;
+    height: auto;
+    
+}
+.ucl-icon {
+    width: 28px;
+    height: auto;
+}
+.uel-icon {
+    width: 30px;
+    height: auto;
+}
+.uecl-icon {
+    width: 30px;
+    height: auto;
+}
+
+/* Updated Position Container Styling */
+.position-container {
+    position: relative;
+    text-align: center;
+}
+.position-number {
+    display: inline-block;
+    /* Number is centered in the container */
+}
+.award-container {
+    position: absolute;
+    left: 75%;  /* Position award container immediately after the number */
+    margin-left: 0px;  /* Adds little space between number and icon */
+    top: 50%;
+    transform: translateY(-40%);
+}
+
+.award-container img {
+    display: inline-block;
+    margin-right: 5px !important;  /* force a little space to the right of the icons */
+}

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Next Fixtures</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='table.css') }}">
+</head>
+<body>
+    <h2>Matchday {{ matchday }} Fixtures</h2>
+    
+    <form action="{{ url_for('fixtures.process_predictions') }}" method="POST">
+        <div class="fixtures-container">
+            {% for match in fixtures %}
+            <div class="fixture-card">
+                <div class="team home-team">
+                    <span>{{ match.homeTeam.name }}</span>
+                    <img src="{{ match.homeTeam.crest }}" alt="{{ match.homeTeam.name }} Logo" class="team-logo">
+                </div>
+                <span class="vs">VS</span>
+                <div class="team away-team">
+                    <img src="{{ match.awayTeam.crest }}" alt="{{ match.awayTeam.name }} Logo" class="team-logo">
+                    <span>{{ match.awayTeam.name }}</span>
+                </div>
+                <div class="prediction-options" data-match-id="{{ match.id }}">
+                    <button type="button" class="prediction-btn" data-prediction="win_home">
+                        🏠 Win
+                    </button>
+                    <button type="button" class="prediction-btn" data-prediction="draw">
+                        ⚖ Draw
+                    </button>
+                    <button type="button" class="prediction-btn" data-prediction="win_away">
+                        🚀 Win
+                    </button>
+                    <button type="button" class="prediction-btn custom-score-btn" data-prediction="custom">
+                        ✏️ Custom
+                    </button>
+                </div>
+        
+                <!-- Hidden Radio Inputs with default value -->
+                <input type="hidden" id="prediction_{{ match.id }}" name="prediction_{{ match.id }}" value="draw">
+                <!-- New hidden fields for team names -->
+                <input type="hidden" name="home_team_{{ match.id }}" value="{{ match.homeTeam.name }}">
+                <input type="hidden" name="away_team_{{ match.id }}" value="{{ match.awayTeam.name }}">
+        
+                <!-- Custom Score Inputs -->
+                <div id="custom_score_inputs_{{ match.id }}" class="custom_score_inputs" style="display:none;">
+                    <div class="custom-score-input">
+                        <label for="home_goals_{{ match.id }}">Home</label>
+                        <input type="number" id="home_goals_{{ match.id }}" name="home_goals_{{ match.id }}" min="0">
+                        <span>:</span>
+                        <input type="number" id="away_goals_{{ match.id }}" name="away_goals_{{ match.id }}" min="0">
+                        <label for="away_goals_{{ match.id }}">Away</label>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="button-container">
+            <button type="submit">Submit Predictions</button>
+            <a href="{{ url_for('fixtures.view_standings') }}" class="side-button">View Standings</a>
+        </div>
+    </form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.prediction-options').forEach(function (options) {
+                options.addEventListener('click', function (event) {
+                    if (event.target.classList.contains('prediction-btn')) {
+                        const matchId = options.getAttribute('data-match-id');
+                        const predictionType = event.target.getAttribute('data-prediction');
+                        setPrediction(predictionType, matchId, event.target);
+                    }
+                });
+            });
+        });
+
+        function setPrediction(predictionType, matchId, target) {
+            // Set the value of the hidden input field for the prediction
+            document.getElementById("prediction_" + matchId).value = predictionType;
+
+            // Deselect all buttons for this match
+            const buttons = target.parentElement.querySelectorAll('.prediction-btn');
+            buttons.forEach(function (btn) {
+                btn.classList.remove('selected');
+            });
+
+            // Highlight the selected prediction button
+            target.classList.add('selected');
+
+            // Show or hide custom score inputs if 'custom' is selected
+            const customInputs = document.getElementById("custom_score_inputs_" + matchId);
+            if (predictionType === 'custom') {
+                customInputs.style.display = 'block';
+            } else {
+                customInputs.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
