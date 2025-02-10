@@ -23,19 +23,19 @@
                     <img src="{{ match.awayTeam.crest }}" alt="{{ match.awayTeam.name }} Logo" class="team-logo">
                     <span>{{ match.awayTeam.name }}</span>
                 </div>
-                <div class="prediction-options" data-match-id="{{ match.id }}">
-                    <button type="button" class="prediction-btn" data-prediction="win_home">
-                        🏠 Win
-                    </button>
-                    <button type="button" class="prediction-btn" data-prediction="draw">
-                        ⚖ Draw
-                    </button>
-                    <button type="button" class="prediction-btn" data-prediction="win_away">
-                        🚀 Win
-                    </button>
-                    <button type="button" class="prediction-btn custom-score-btn" data-prediction="custom">
-                        ✏️ Custom
-                    </button>
+                <div class="radio-container" data-match-id="{{ match.id }}">
+                    <input type="radio" id="home_{{ match.id }}" name="prediction_{{ match.id }}" value="win_home">
+                    <label for="home_{{ match.id }}">Home</label>
+                    <input type="radio" id="draw_{{ match.id }}" name="prediction_{{ match.id }}" value="draw" checked>
+                    <label for="draw_{{ match.id }}">Draw</label>
+                    <input type="radio" id="away_{{ match.id }}" name="prediction_{{ match.id }}" value="win_away">
+                    <label for="away_{{ match.id }}">Away</label>
+                    <input type="radio" id="custom_{{ match.id }}" name="prediction_{{ match.id }}" value="custom">
+                    <label for="custom_{{ match.id }}">Custom</label>
+                    
+                    <div class="glider-container">
+                        <div class="glider"></div>
+                    </div>
                 </div>
         
                 <!-- Hidden Radio Inputs with default value -->
@@ -47,11 +47,30 @@
                 <!-- Custom Score Inputs -->
                 <div id="custom_score_inputs_{{ match.id }}" class="custom_score_inputs" style="display:none;">
                     <div class="custom-score-input">
-                        <label for="home_goals_{{ match.id }}">Home</label>
-                        <input type="number" id="home_goals_{{ match.id }}" name="home_goals_{{ match.id }}" min="0">
-                        <span>:</span>
-                        <input type="number" id="away_goals_{{ match.id }}" name="away_goals_{{ match.id }}" min="0">
-                        <label for="away_goals_{{ match.id }}">Away</label>
+                        <!-- Labels above fields -->
+                        <div class="custom-score-labels">
+                            <span>Home</span>
+                            <span>Away</span>
+                        </div>
+                        <div class="custom-score-fields">
+                            <!-- Updated: Home Goals control: buttons on the left -->
+                            <div class="number-input-container">
+                                <div class="number-input-btns left">
+                                    <button type="button" class="number-input-btn" data-target="home_goals_{{ match.id }}" data-action="increment">+</button>
+                                    <button type="button" class="number-input-btn" data-target="home_goals_{{ match.id }}" data-action="decrement">-</button>
+                                </div>
+                                <input type="number" id="home_goals_{{ match.id }}" name="home_goals_{{ match.id }}" min="0" class="number-input" value="0">
+                            </div>
+                            <span>:</span>
+                            <!-- Updated: Away Goals control: buttons on the right -->
+                            <div class="number-input-container">
+                                <input type="number" id="away_goals_{{ match.id }}" name="away_goals_{{ match.id }}" min="0" class="number-input" value="0">
+                                <div class="number-input-btns right">
+                                    <button type="button" class="number-input-btn" data-target="away_goals_{{ match.id }}" data-action="increment">+</button>
+                                    <button type="button" class="number-input-btn" data-target="away_goals_{{ match.id }}" data-action="decrement">-</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -65,37 +84,34 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            document.querySelectorAll('.prediction-options').forEach(function (options) {
-                options.addEventListener('click', function (event) {
-                    if (event.target.classList.contains('prediction-btn')) {
-                        const matchId = options.getAttribute('data-match-id');
-                        const predictionType = event.target.getAttribute('data-prediction');
-                        setPrediction(predictionType, matchId, event.target);
+            document.querySelectorAll('.radio-container input').forEach(function (radio) {
+                radio.addEventListener('change', function () {
+                    const container = radio.closest('.radio-container');
+                    const matchId = container.getAttribute('data-match-id');
+                    setPrediction(radio.value, matchId);
+                });
+            });
+
+            // New: handle clicks for +/- buttons
+            document.querySelectorAll('.number-input-btn').forEach(function(btn) {
+                btn.addEventListener('click', function(){
+                    var targetId = this.getAttribute('data-target');
+                    var action = this.getAttribute('data-action');
+                    var input = document.getElementById(targetId);
+                    var currentVal = parseInt(input.value) || 0;
+                    if(action === 'increment'){
+                        input.value = currentVal + 1;
+                    } else if(action === 'decrement'){
+                        input.value = Math.max(0, currentVal - 1);
                     }
                 });
             });
         });
 
-        function setPrediction(predictionType, matchId, target) {
-            // Set the value of the hidden input field for the prediction
+        function setPrediction(predictionType, matchId) {
             document.getElementById("prediction_" + matchId).value = predictionType;
-
-            // Deselect all buttons for this match
-            const buttons = target.parentElement.querySelectorAll('.prediction-btn');
-            buttons.forEach(function (btn) {
-                btn.classList.remove('selected');
-            });
-
-            // Highlight the selected prediction button
-            target.classList.add('selected');
-
-            // Show or hide custom score inputs if 'custom' is selected
             const customInputs = document.getElementById("custom_score_inputs_" + matchId);
-            if (predictionType === 'custom') {
-                customInputs.style.display = 'block';
-            } else {
-                customInputs.style.display = 'none';
-            }
+            customInputs.style.display = (predictionType === 'custom') ? 'block' : 'none';
         }
     </script>
 </body>
