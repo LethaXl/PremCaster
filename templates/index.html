@@ -15,7 +15,7 @@
                 <th>Position</th>
                 <th>Team</th>
                 <th>Played</th>
-                <th>Record (W-D-L)</th>  <!-- New Record column -->
+                <th>Record (W-D-L)</th>  
                 <th>Goal Difference</th>
                 <th>Points</th>
             </tr>
@@ -46,15 +46,15 @@
                     </div>
                 </td>
                 <td>{{ team.playedGames }}</td>
-                <td>{{ team.won }} - {{ team.draw }} - {{ team.lost }}</td>  <!-- Record column -->
-                <td>{{ team.goalDifference }}</td>  <!-- Goal Difference -->
+                <td>{{ team.won }} - {{ team.draw }} - {{ team.lost }}</td> 
+                <td>{{ team.goalDifference }}</td>  
                 <td>{{ team.points }}</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 
-    <!-- Wrap link in a center container -->
+   
     <div class="center-button">
         <a href="{{ url_for('fixtures.next_fixtures') }}" class="side-button">Forecast</a>
     </div>
