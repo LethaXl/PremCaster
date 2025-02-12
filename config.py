@@ -1,7 +1,8 @@
 from flask import Flask, render_template
 import requests
 import os
-
+from dotenv import load_dotenv
+load_dotenv()
 app = Flask(__name__)
 
 # Replace with your Football-Data.org API key

@@ -3,6 +3,8 @@ from routes.fixtures import get_teams  # reuse fixture helper
 import routes.fixtures as fixtures_module  # to reset simulated_standings
 import requests
 import os
+from dotenv import load_dotenv
+load_dotenv()
 
 standings_bp = Blueprint('standings', __name__)
 

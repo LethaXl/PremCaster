@@ -1,6 +1,8 @@
 from flask import Blueprint, render_template, request, session, redirect, url_for
 import requests
 import os
+from dotenv import load_dotenv
+load_dotenv()
 
 fixtures_bp = Blueprint('fixtures', __name__)
 
