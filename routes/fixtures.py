@@ -72,19 +72,19 @@ def get_teams():
             # set initial_position for each team based on the starting order
             for idx, team in enumerate(teams_data):
                 team["initial_position"] = idx + 1
-                team["logo"] = team["team"]["crest"]  # Ensure logo is assigned
+                team["logo"] = team["team"]["crest"]  
             return teams_data
         else:
             return []
     else:
         return []
 
-# ✅ **Fixed update_standings: Now handles both standings & goal difference**
+
 def update_standings(home_team_result, away_team_result, teams):
     for team in teams:
         if team["team"]["name"] == home_team_result["name"]:
             team["playedGames"] += 1
-            team["goalDifference"] += home_team_result["goal_difference"]  # ✅ Fixed
+            team["goalDifference"] += home_team_result["goal_difference"]  
             if home_team_result["result"] == "win":
                 team["won"] += 1
                 team["points"] += 3
@@ -96,7 +96,7 @@ def update_standings(home_team_result, away_team_result, teams):
 
         elif team["team"]["name"] == away_team_result["name"]:
             team["playedGames"] += 1
-            team["goalDifference"] += away_team_result["goal_difference"]  # ✅ Fixed
+            team["goalDifference"] += away_team_result["goal_difference"]  
             if away_team_result["result"] == "win":
                 team["won"] += 1
                 team["points"] += 3
@@ -133,11 +133,10 @@ def process_match_prediction(prediction, home_team, away_team, home_goals=None, 
 
 @fixtures_bp.route("/process_predictions", methods=["POST"])
 def process_predictions():
-    global simulated_standings  # Use global simulated standings
+    global simulated_standings  
     if simulated_standings is None:
         simulated_standings = get_teams()
     predictions = {}
-    # ...existing prediction processing...
     for key in request.form:
         if key.startswith("prediction_"):
             match_id = key.replace("prediction_", "")
@@ -190,5 +189,5 @@ def view_standings():
     elif current > 1:
         standings_matchday = current - 1
     else:
-        standings_matchday = current  # if current is 1
+        standings_matchday = current  
     return render_template("updated_standings.html", table=simulated_standings, standings_matchday=standings_matchday)
