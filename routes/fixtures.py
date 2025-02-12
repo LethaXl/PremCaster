@@ -1,9 +1,10 @@
 from flask import Blueprint, render_template, request, session, redirect, url_for
 import requests
+import os
 
 fixtures_bp = Blueprint('fixtures', __name__)
 
-API_KEY = "ad80cb98885d40d382ec91db7e4351de"
+API_KEY = os.getenv("API_KEY", "default_api_key")
 BASE_URL = "http://api.football-data.org/v4"
 HEADERS = {"X-Auth-Token": API_KEY}
 MAX_MATCHDAY = 38  # Define maximum matchweek

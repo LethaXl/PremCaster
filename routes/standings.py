@@ -2,10 +2,11 @@ from flask import Blueprint, session, redirect, url_for, render_template
 from routes.fixtures import get_teams  # reuse fixture helper
 import routes.fixtures as fixtures_module  # to reset simulated_standings
 import requests
+import os
 
 standings_bp = Blueprint('standings', __name__)
 
-API_KEY = "ad80cb98885d40d382ec91db7e4351de"
+API_KEY = os.getenv("API_KEY", "default_api_key")
 BASE_URL = "http://api.football-data.org/v4"
 HEADERS = {"X-Auth-Token": API_KEY}
 
