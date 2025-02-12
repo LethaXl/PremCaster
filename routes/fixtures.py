@@ -14,7 +14,8 @@ simulated_standings = None
 @fixtures_bp.route("/next-fixtures")
 def next_fixtures():
     if "current_matchday" not in session:
-        session["current_matchday"] = get_current_matchday()
+        # Set to matchday 1 if get_current_matchday() returns None
+        session["current_matchday"] = get_current_matchday() or 1
     matchday = session["current_matchday"]
 
     # Render final standings if matchday exceeds MAX_MATCHDAY
@@ -37,7 +38,11 @@ def next_fixtures():
         
         return render_template("fixtures.html", fixtures=fixtures, matchday=matchday)
     else:
-        return f"Error fetching fixtures: {response.status_code}"
+        if response.status_code == 429:
+            error_message = "Too many requests. Please wait before retrying."
+        else:
+            error_message = f"Error fetching fixtures: {response.status_code}"
+        return render_template("error.html", error_message=error_message)
 
 
 def get_current_matchday():
@@ -126,12 +131,10 @@ def process_match_prediction(prediction, home_team, away_team, home_goals=None, 
 @fixtures_bp.route("/process_predictions", methods=["POST"])
 def process_predictions():
     global simulated_standings  # Use global simulated standings
-    # Initialize simulated_standings only once
     if simulated_standings is None:
         simulated_standings = get_teams()
-    
     predictions = {}
-    # Iterate over submitted prediction keys
+    # ...existing prediction processing...
     for key in request.form:
         if key.startswith("prediction_"):
             match_id = key.replace("prediction_", "")
@@ -150,41 +153,39 @@ def process_predictions():
                 }
             else:
                 predictions[match_id] = {"prediction": prediction}
-
-    # Use simulated_standings instead of re-fetching from API
     for match_id, data in predictions.items():
-        # Get team names from hidden fields
         home_team = request.form.get(f"home_team_{match_id}")
         away_team = request.form.get(f"away_team_{match_id}")
-        
         prediction = data['prediction']
         home_goals = data.get('home_goals', None)
-        away_goals = data.get('away_goals', None)
-
+        away_goals = data.get('home_goals', None)
         home_team_result, away_team_result = process_match_prediction(
             prediction, home_team, away_team, home_goals, away_goals
         )
-
         if home_team_result is None or away_team_result is None:
             return f"Error: Invalid prediction or missing data for match {match_id}", 400
-
         update_standings(home_team_result, away_team_result, simulated_standings)
-    
-    # If predictions were for matchday 38, update session to trigger final standings
+    # Save updated standings in session
+    session["simulated_standings"] = simulated_standings
     if session["current_matchday"] == MAX_MATCHDAY:
         session["current_matchday"] = MAX_MATCHDAY + 1
         standings_matchday = "Final"
         return render_template("updated_standings.html", table=simulated_standings, standings_matchday=standings_matchday)
     else:
         session["current_matchday"] += 1
-        # Fix endpoint name below: use "fixtures.next_fixtures" instead of "fixtures.next-fixtures"
         return redirect(url_for("fixtures.next_fixtures"))
 
 @fixtures_bp.route("/view-standings")
 def view_standings():
     global simulated_standings
     if simulated_standings is None:
-        simulated_standings = get_teams()  # Initialize if not already set
-    current = session.get("current_matchday", get_current_matchday())
-    standings_matchday = "Final" if current >= MAX_MATCHDAY + 1 else current
+        # Retrieve standings from session if available; otherwise, initialize
+        simulated_standings = session.get("simulated_standings") or get_teams()
+    current = session.get("current_matchday", get_current_matchday() or 1)
+    if current >= MAX_MATCHDAY + 1:
+        standings_matchday = "Final"
+    elif current > 1:
+        standings_matchday = current - 1
+    else:
+        standings_matchday = current  # if current is 1
     return render_template("updated_standings.html", table=simulated_standings, standings_matchday=standings_matchday)

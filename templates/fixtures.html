@@ -106,6 +106,12 @@
                     }
                 });
             });
+
+            // New: disable submit button on form submission to prevent rapid clicks
+            document.querySelector('form').addEventListener('submit', function () {
+                var submitButton = this.querySelector('button[type="submit"]');
+                submitButton.disabled = true;
+            });
         });
 
         function setPrediction(predictionType, matchId) {

@@ -1,4 +1,0 @@
-go by matchday instead of next 10 fixtures 00
-print out the paths
-ask for a break in matchweek 00
-add + - for teams standings 00

@@ -73,7 +73,12 @@
         </tbody>      
     </table>
     <div class="center-button">
-        <a href="{{ url_for('fixtures.next_fixtures') }}" class="side-button">Back to Forecasting</a>
+        {% if standings_matchday != "Final" %}
+            <a href="{{ url_for('fixtures.next_fixtures') }}" class="side-button">Back to Forecasting</a>
+        {% endif %}
+        {% if standings_matchday == "Final" %}
+            <a href="{{ url_for('standings.home') }}" class="side-button">Home</a>
+        {% endif %}
     </div>
 
 </body>

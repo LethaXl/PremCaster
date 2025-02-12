@@ -1,4 +1,6 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, session, redirect, url_for, render_template
+from routes.fixtures import get_teams  # reuse fixture helper
+import routes.fixtures as fixtures_module  # to reset simulated_standings
 import requests
 
 standings_bp = Blueprint('standings', __name__)
@@ -10,13 +12,9 @@ HEADERS = {"X-Auth-Token": API_KEY}
 # Route to display the Premier League table
 @standings_bp.route("/")
 def home():
-    standings_url = f"{BASE_URL}/competitions/PL/standings"
-    response = requests.get(standings_url, headers=HEADERS)
-
-    if response.status_code == 200:
-        data = response.json()
-        table = data["standings"][0]["table"]  # First "standings" array contains the actual league table
-        return render_template("index.html", table=table)
-    else:
-        return f"Error fetching standings: {response.status_code}"
+    # Reset simulation state
+    session.pop("current_matchday", None)
+    fixtures_module.simulated_standings = None
+    teams = get_teams()  # load latest teams for home page
+    return render_template("index.html", table=teams)
 
