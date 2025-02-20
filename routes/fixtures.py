@@ -4,6 +4,7 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
+
 fixtures_bp = Blueprint('fixtures', __name__)
 
 API_KEY = os.getenv("API_KEY", "default_api_key")
