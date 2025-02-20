@@ -1,5 +1,5 @@
 from flask import Blueprint, session, redirect, url_for, render_template
-from routes.fixtures import get_teams  # reuse fixture helper
+from routes.fixtures import get_teams  
 import routes.fixtures as fixtures_module  # to reset simulated_standings
 import requests
 import os

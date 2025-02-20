@@ -8,12 +8,12 @@ body {
     line-height: 1.6;
 }
 
-/* Remove horizontal scroll when custom score inputs are shown */
+
 html, body {
     overflow-x: hidden;
 }
 
-/* Main Heading Styling */
+
 h1, h2 {
     text-align: center;
     font-size: 36px;
@@ -28,7 +28,7 @@ h2 {
     margin-bottom: 0px;
 }
 
-/* Fixtures Container */
+
 .fixtures-container {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -38,7 +38,7 @@ h2 {
     background: none;
 }
 
-/* Fixture Card Styling */
+
 .fixture-card {
     background-color: #1e1e1e;
     border-radius: 8px;
@@ -49,7 +49,7 @@ h2 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;  /* Increase gap for vertical spacing */
+    gap: 10px;  
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -58,14 +58,14 @@ h2 {
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
 }
 
-/* Team Styling */
+
 .team {
     display: flex;
     align-items: center;
     gap: 8px;
     font-size: 15px;
     font-weight: 500;
-    margin-bottom: 2px;  /* Add margin-bottom for spacing */
+    margin-bottom: 2px;  
 }
 
 .team-logo {
@@ -79,25 +79,25 @@ h2 {
     transform: scale(1.1);
 }
 
-/* "VS" Text */
+
 .vs {
     font-size: 15px;
     font-weight: bold;
     color: #e0e0e0;
     opacity: 0.8;
-    margin-bottom: 10px;  /* Add margin-bottom for spacing */
+    margin-bottom: 10px;  
 }
 
-/* Prediction Buttons Container */
+
 .prediction-options {
     display: flex;
     gap: 10px;
     justify-content: center;
     flex-wrap: nowrap;
-    margin-bottom: 10px;  /* Add margin-bottom for spacing */
+    margin-bottom: 10px;  
 }
 
-/* Prediction Buttons */
+
 .prediction-btn {
     padding: 3px 8px;
     border: none;
@@ -184,11 +184,11 @@ h2 {
 
 .custom-score-labels {
     display: grid;
-    grid-template-columns: auto auto; /* changed from 1fr 1fr */
+    grid-template-columns: auto auto; 
     justify-items: center;
-    grid-gap: 5px; /* adjust gap as needed */
-    width: auto;  /* changed from 100% */
-    margin: 0 auto 5px;  /* centers the labels */
+    grid-gap: 5px; 
+    width: auto; 
+    margin: 0 auto 5px;  
     font-size: 12px;
     font-weight: bold;
 }
@@ -209,19 +209,6 @@ h2 {
     border-radius: 4px;
     background-color: #1e1e1e;
     color: #e0e0e0;
-}
-
-/* Custom Score Input styling improvements */
-/* Remove duplicate .custom-score-labels definition below */
-.custom-score-labels {
-    /* Remove this duplicate block if it exists:
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    margin-bottom: 5px;
-    font-size: 12px;
-    font-weight: bold;
-    */
 }
 
 /* Ensure the following grid definition exists and is the only one */
@@ -275,12 +262,12 @@ button[type="submit"]:hover {
     color: #212121;
     scale: 1.1;
     box-shadow: 0 0px 20px rgba(193, 163, 98, 0.4);
-    opacity: 0.9; /* Slightly reduce opacity on hover */
+    opacity: 0.9; 
     transform: translateY(-3px);
 }
 
 button[type="submit"]:active {
-    transform: scale(0.79); /* Shrinks the button slightly */
+    transform: scale(0.79); 
     box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);
     scale: 1;
 }
@@ -306,7 +293,7 @@ form {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* --- 🎨 FIXTURE CELL STYLES --- */
+
 .match-cell {
     display: flex;
     justify-content: space-between;
@@ -331,7 +318,7 @@ select:hover {
     border-color: #007bff;
 }
 
-/* Example for class styles */
+
 .fixture-card.postponed {
     background-color: #f3f3f3;
     opacity: 0.6;
@@ -342,9 +329,9 @@ select:hover {
     color: red;
 }
 
-/* Break Marker Styling */
+
 .break-marker {
-    grid-column: 1 / -1;  /* Span all columns */
+    grid-column: 1 / -1;  
     text-align: center;
     padding: 10px;
     background: rgba(255,255,255,0.1);
@@ -412,7 +399,7 @@ select:hover {
     text-align: center;
 }
 
-/* From Uiverse.io by Smit-Prajapati - New Radio Container Styles */
+
 .radio-container {
   --main-color: #f7e479;
   --main-color-opacity: #f7e4791c;
@@ -470,7 +457,7 @@ select:hover {
   content: "";
   position: absolute;
   top: 0;
-  width: 80px; /* reduced from 150px */
+  width: 80px; 
   height: 100%;
   background: linear-gradient(
     90deg,
@@ -513,8 +500,8 @@ select:hover {
   --total-radio: 4;
   display: flex;
   position: relative;
-  padding-left: 0.3rem;  /* reduced padding */
-  font-size: 0.8rem;       /* smaller text */
+  padding-left: 0.3rem;  
+  font-size: 0.8rem;       
 }
 .radio-container input {
   cursor: pointer;
@@ -540,14 +527,14 @@ select:hover {
 .radio-container input:nth-of-type(3):checked ~ .glider-container .glider { transform: translateX(255%); }
 .radio-container input:nth-of-type(4):checked ~ .glider-container .glider { transform: translateX(385%); }
 .radio-container label {
-  padding: 0.5rem;        /* reduced padding */
+  padding: 0.5rem;        
   cursor: pointer;
   color: grey;
   transition: color 0.3s ease;
 }
 .radio-container input:checked + label { color: var(--main-color); }
 
-/* +- Box controls for input field: Stack buttons vertically */
+
 .number-input-container {
     display: inline-flex;
     align-items: center;
@@ -558,7 +545,7 @@ select:hover {
     text-align: center;
     border: 1px solid #444;
     border-radius: 4px;
-    padding: 6px; /* increased padding from 2px */
+    padding: 6px; 
     margin: 0 5px;
 }
 
@@ -586,7 +573,7 @@ select:hover {
     background-color: #666;
 }
 
-/* Remove default spinner from number inputs */
+
 .number-input::-webkit-outer-spin-button,
 .number-input::-webkit-inner-spin-button {
     -webkit-appearance: none;

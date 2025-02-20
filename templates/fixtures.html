@@ -38,22 +38,22 @@
                     </div>
                 </div>
         
-                <!-- Hidden Radio Inputs with default value -->
+                
                 <input type="hidden" id="prediction_{{ match.id }}" name="prediction_{{ match.id }}" value="draw">
-                <!-- New hidden fields for team names -->
+                
                 <input type="hidden" name="home_team_{{ match.id }}" value="{{ match.homeTeam.name }}">
                 <input type="hidden" name="away_team_{{ match.id }}" value="{{ match.awayTeam.name }}">
         
-                <!-- Custom Score Inputs -->
+                
                 <div id="custom_score_inputs_{{ match.id }}" class="custom_score_inputs" style="display:none;">
                     <div class="custom-score-input">
-                        <!-- Labels above fields -->
+                       
                         <div class="custom-score-labels">
                             <span>Home</span>
                             <span>Away</span>
                         </div>
                         <div class="custom-score-fields">
-                            <!-- Updated: Home Goals control: buttons on the left -->
+                           
                             <div class="number-input-container">
                                 <div class="number-input-btns left">
                                     <button type="button" class="number-input-btn" data-target="home_goals_{{ match.id }}" data-action="increment">+</button>
@@ -62,7 +62,7 @@
                                 <input type="number" id="home_goals_{{ match.id }}" name="home_goals_{{ match.id }}" min="0" class="number-input" value="0">
                             </div>
                             <span>:</span>
-                            <!-- Updated: Away Goals control: buttons on the right -->
+                           
                             <div class="number-input-container">
                                 <input type="number" id="away_goals_{{ match.id }}" name="away_goals_{{ match.id }}" min="0" class="number-input" value="0">
                                 <div class="number-input-btns right">
@@ -92,7 +92,7 @@
                 });
             });
 
-            // New: handle clicks for +/- buttons
+            
             document.querySelectorAll('.number-input-btn').forEach(function(btn) {
                 btn.addEventListener('click', function(){
                     var targetId = this.getAttribute('data-target');

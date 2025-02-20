@@ -1,8 +1,8 @@
 /* Table Styling */
 table {
-    width: auto; /* Change from 100% to auto for flexible column widths */
+    width: auto; 
     border-collapse: collapse;
-    margin: 0 auto 30px auto; /* Centre align the table */
+    margin: 0 auto 30px auto; 
     background-color: #1e1e1e;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
@@ -91,8 +91,8 @@ tr:hover {
 }
 .award-container {
     position: absolute;
-    left: 75%;  /* Position award container immediately after the number */
-    margin-left: 0px;  /* Adds little space between number and icon */
+    left: 75%; 
+    margin-left: 0px;  
     top: 50%;
     transform: translateY(-40%);
 }
